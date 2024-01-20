@@ -21,10 +21,24 @@ public class AHProductEntity {
         return price.now;
     }
 
+    public Double getSize() {
+        return price.unitSize;
+    }
+
+    public GlobalProductEntity getAsGlobalEntity() {
+        final GlobalProductEntity entity = new GlobalProductEntity();
+        entity.setGtins(gtins);
+        entity.setBrand(brand);
+        entity.setTitle(title.replace(brand, "").trim());
+        entity.getStorePriceMap().put("AH", getPrice());
+        entity.setSize(getSize());
+        return entity;
+    }
+
     public static class AHPriceGroup {
         private Double now;
 
-        /* Unit sizes can range across many different types.
+        /* Unit sizes can range across many types.
          *
          * For measurements, we stick to kilo versions. (e.g. 1kg -> 1, 500g -> 0.5  100 ml -> 0.1)
          * For total units, we stick to per full unit. (e.g. 5 paper toilet rolls -> 5, 30 laundries -> 30)
